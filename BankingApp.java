@@ -112,18 +112,24 @@ public class BankingApp {
                         scanner.nextLine();
 
                         if (deposit<5000){
-                            System.out.printf("%sInitital deposit must be greater than 5000%s", COLOUR_RED_BOLD,RESET);
+                            System.out.printf("%sInitital deposit must be greater than 5000%s\n", COLOUR_RED_BOLD,RESET);
                             continue loopAddDeposit;
                         }
                         break;
                     }while(true);
 
                     System.out.println();
-                    System.out.printf(id+ " : "+ name + "%sAdded successfully%s\n",COLOUR_GREEN_BOLD,RESET);
-                    System.out.printf("%sDo you want to add another account?%s",COLOUR_BLUE_BOLD,RESET);
+                    System.out.printf(id+ " : "+ name + " -%s  Added successfully%s\n",COLOUR_GREEN_BOLD,RESET);
+                    System.out.printf("%sDo you want to add another account? (Y/N) >%s",COLOUR_BLUE_BOLD,RESET);
                     String addAccYesNoOption = scanner.nextLine().strip().toUpperCase();
 
-                    
+                        if(addAccYesNoOption=="Y"){
+                            screen = NEW_ACCOUNT;
+                            continue;
+                        }else{
+                            screen=DASHBOARD;
+                            continue;
+                        }
 
                 // case DEPOSIT:
 
