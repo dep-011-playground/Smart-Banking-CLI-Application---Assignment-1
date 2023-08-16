@@ -1,3 +1,4 @@
+import java.nio.charset.CharacterCodingException;
 import java.util.Scanner;
 
 public class BankingApp {
@@ -20,10 +21,16 @@ public class BankingApp {
 
         String screen = DASHBOARD;
 
-        int[] idArrayMain = new int[0];
-        String[] nameArrayMain = new String[0];
-        double[] balanceArrayMain = new double[0];
+        String id;
+        String name;
+        double deposit;
+        double Balance;
 
+        int[] idArray = new int[0];
+        String[] nameArray = new String[0];
+        double[] balanceArray = new double[0];
+
+        loopMain:
         do{
 
             final String APP_TITLE = String.format("%s%s%s",
@@ -41,7 +48,7 @@ public class BankingApp {
                 System.out.println("[3]. Withdraw Money");
                 System.out.println("[4]. Transfer Money");
                 System.out.println("[5]. Check Account Balance");
-                System.out.println("[6]. Withdraw Money");
+                System.out.println("[6]. Drop existing account");
                 System.out.println("[7]. Exit\n");
                 System.out.print("Enter an option to continue > ");
                 int option = scanner.nextInt();
@@ -62,19 +69,75 @@ public class BankingApp {
                 case NEW_ACCOUNT:
 
 
-                case DEPOSIT:
+                    // add id
+                    id = String.format("%05d", idArray.length+1);
+                    System.out.println("ID: SDB - "+ id );
+
+                    // add name
+                    loopAddName:
+                    do{
+                        System.out.print("Enter Account holder's name: ");
+                        name = scanner.nextLine().strip();
+
+                        if(name.isBlank()){
+                            System.out.printf("%sName can't be empty%s\n",COLOUR_RED_BOLD,RESET);
+                            
+                            System.out.print("Do You want to enter again? (Y/N)");
+                            String addNameYesNoOption = scanner.nextLine().strip().toUpperCase();
+                            
+                            if (addNameYesNoOption=="Y"){
+                                System.out.println();
+                                System.out.println("ID: SDB - "+ id );
+                                continue loopAddName;
+                            }else{
+                                screen=DASHBOARD;
+                                continue loopMain;
+                            }
+                        }
+                        for (int i = 0; i < name.length(); i++) {
+                            if(!(Character.isLetter(name.charAt(i))|| name.charAt(i)==' ')){
+                                System.out.printf("%sInvalied Name%s",COLOUR_RED_BOLD,RESET);
+                                continue loopAddName;
+                            }  
+                        }
+                        break;
+
+                    }while(true);
+
+                    //add deposit
+                    loopAddDeposit:
+                    do{
+                        System.out.print("Enter deposit amount: ");
+                        deposit = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        if (deposit<5000){
+                            System.out.printf("%sInitital deposit must be greater than 5000%s", COLOUR_RED_BOLD,RESET);
+                            continue loopAddDeposit;
+                        }
+                        break;
+                    }while(true);
+
+                    System.out.println();
+                    System.out.printf(id+ " : "+ name + "%sAdded successfully%s\n",COLOUR_GREEN_BOLD,RESET);
+                    System.out.printf("%sDo you want to add another account?%s",COLOUR_BLUE_BOLD,RESET);
+                    String addAccYesNoOption = scanner.nextLine().strip().toUpperCase();
+
+                    
+
+                // case DEPOSIT:
 
 
-                case WITHDRAW:
+                // case WITHDRAW:
 
 
-                case TRANSFER:
+                // case TRANSFER:
 
 
-                case CHECK_BALANCE:
+                // case CHECK_BALANCE:
 
 
-                case DROP_ACCOUNT:
+                // case DROP_ACCOUNT:
 
 
                 default: System.exit(0);
@@ -83,7 +146,7 @@ public class BankingApp {
             }
 
 
-        }while (true);
+        } while (true);
 
     }
 }
